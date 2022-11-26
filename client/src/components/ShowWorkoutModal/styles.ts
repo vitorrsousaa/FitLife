@@ -101,3 +101,47 @@ export const ContentWorkout = styled.div`
     }
   }
 `;
+
+export const SectionsContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0px;
+  gap: 1rem;
+  margin-bottom: 2rem;
+`;
+
+interface SectionProps {
+  disabled: boolean;
+}
+
+export const Section = styled.div<SectionProps>`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0px;
+  gap: 8px;
+
+  width: 3.5rem;
+
+  opacity: ${({ disabled }) => (!disabled ? '0.5' : '1')};
+
+  p:first-child {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0.725rem;
+    background: var(--white);
+
+    box-shadow: 0px 2px 1px rgba(0, 0, 0, 0.1);
+    border-radius: 100%;
+  }
+
+  p:last-child {
+    color: var(--white);
+    font-weight: 600;
+    font-size: 0.875rem;
+  }
+`;

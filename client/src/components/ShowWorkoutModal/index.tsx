@@ -1,8 +1,16 @@
+import { useState } from 'react';
 import Button from '../Button';
 import Divider from '../Divider';
 import { Modal } from '../Modal';
 
-import { Container, ContainerWorkout, ContentWorkout, Header } from './styles';
+import {
+  Container,
+  ContainerWorkout,
+  ContentWorkout,
+  Header,
+  Section,
+  SectionsContainer,
+} from './styles';
 
 interface ShowWorkoutModalProps {
   onClose: () => void;
@@ -10,14 +18,40 @@ interface ShowWorkoutModalProps {
 }
 
 const ShowWorkoutModal = ({ onClose, isOpen }: ShowWorkoutModalProps) => {
+  const trainings = ['Treino A', 'Treino B', 'Treino C'];
+  const [selectedTraining, setSelectedTraining] = useState('');
+
+  function handleSelectedTraining(trainingId: string) {
+    const training = selectedTraining === trainingId ? '' : trainingId;
+
+    setSelectedTraining(training);
+  }
+
   return (
     <Modal
       onClose={onClose}
       isOpen={isOpen}
-      title="Vitor Sousa"
+      title="Planejamento de treino"
       containerId="showWorkout-modal"
     >
       <Container>
+        <SectionsContainer>
+          {trainings.map((training) => {
+            const isSelected = selectedTraining === training;
+
+            return (
+              <Section
+                key={training}
+                onClick={() => handleSelectedTraining(training)}
+                disabled={isSelected}
+              >
+                <p>💪</p>
+                <p>{training}</p>
+              </Section>
+            );
+          })}
+        </SectionsContainer>
+
         <Header>
           <h2>Treino A</h2>
           <p>22/11/2022</p>
@@ -113,7 +147,10 @@ const ShowWorkoutModal = ({ onClose, isOpen }: ShowWorkoutModalProps) => {
         </ContainerWorkout>
         <Divider />
         <div>
-          <Button style={{ background: 'var(--error)', marginTop: '2rem' }}>
+          <Button
+            style={{ background: 'var(--error)', marginTop: '2rem' }}
+            disabled={selectedTraining === ''}
+          >
             Excluir plano de treino
           </Button>
         </div>
