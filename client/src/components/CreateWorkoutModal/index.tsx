@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
+
 import Button from '../Button';
 import Divider from '../Divider';
+import MapGym from '../icons/MapGym';
+import { Input } from '../Input';
 import { Modal } from '../Modal';
 
-import { Select } from './styles';
+import { ContainerInput, Muscle, MuscleContainer } from './styles';
 
 interface CreateWorkoutModalProps {
   isOpen: boolean;
@@ -11,11 +14,20 @@ interface CreateWorkoutModalProps {
 }
 
 const CreateWorkoutModal = ({ isOpen, onClose }: CreateWorkoutModalProps) => {
+  const muscles = ['Dorsal', 'Biceps', 'Triceps', 'Perna', 'Ombro', 'Peito'];
   const [selectedMuscle, setSelectedMuscle] = useState('');
+  const [titleTraining, setIsTitleTraining] = useState('');
 
-  function handleSelectedMuscle(muscle: string) {
+  function handleSelectedMuscle(muscleId: string) {
+    const muscle = selectedMuscle === muscleId ? '' : muscleId;
+
     setSelectedMuscle(muscle);
   }
+
+  function handleChangeTitle(event: string) {
+    setIsTitleTraining(event);
+  }
+
   return (
     <Modal
       isOpen={isOpen}
@@ -24,23 +36,40 @@ const CreateWorkoutModal = ({ isOpen, onClose }: CreateWorkoutModalProps) => {
       containerId="createWorkout-modal"
     >
       <>
-        <h2>Criar Treino</h2>
-        <Select
-          name=""
-          id=""
-          onChange={({ target }) => handleSelectedMuscle(target.value)}
-        >
-          <option value="">Selecione o músculo alvo</option>
-          <option value="Dorsal">Dorsal</option>
-          <option value="Peito">Peito</option>
-          <option value="Biceps">Biceps</option>
-        </Select>
-        <Button
-          disabled={!(selectedMuscle.length > 0)}
-          style={{ background: 'var(--primary)' }}
-        >
-          Adicionar exercícios
-        </Button>
+        <ContainerInput>
+          <MapGym />
+          <input
+            placeholder="Digite o título do treino"
+            onChange={(event) => handleChangeTitle(event.target.value)}
+            value={titleTraining}
+          />
+        </ContainerInput>
+
+        <MuscleContainer>
+          {muscles.map((muscle) => {
+            const isSelected = selectedMuscle === muscle;
+
+            return (
+              <Muscle
+                key={muscle}
+                onClick={() => handleSelectedMuscle(muscle)}
+                disabled={isSelected}
+              >
+                <p>💪</p>
+                <p>{muscle}</p>
+              </Muscle>
+            );
+          })}
+        </MuscleContainer>
+
+        {titleTraining.length > 0 && (
+          <Button
+            disabled={!(selectedMuscle.length > 0)}
+            style={{ background: 'var(--primary)' }}
+          >
+            Adicionar exercícios
+          </Button>
+        )}
         <Divider />
         <Button disabled>Salvar treino</Button>
       </>
