@@ -18,6 +18,7 @@ const InfoModal = ({ onClose, isOpen }: InfoModalProps) => {
       subtitle="Informações"
       onClose={onClose}
       isOpen={isOpen}
+      containerId="info-modal"
     >
       <Container>
         <Content>

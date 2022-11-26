@@ -7,8 +7,8 @@ export const Overlay = styled.div`
 
   left: 0;
   top: 0;
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(4.5px);
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(5px);
 
   display: flex;
   align-items: center;

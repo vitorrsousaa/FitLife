@@ -11,7 +11,12 @@ interface ShowWorkoutModalProps {
 
 const ShowWorkoutModal = ({ onClose, isOpen }: ShowWorkoutModalProps) => {
   return (
-    <Modal onClose={onClose} isOpen={isOpen} title="Vitor Sousa">
+    <Modal
+      onClose={onClose}
+      isOpen={isOpen}
+      title="Vitor Sousa"
+      containerId="showWorkout-modal"
+    >
       <Container>
         <Header>
           <h2>Treino A</h2>

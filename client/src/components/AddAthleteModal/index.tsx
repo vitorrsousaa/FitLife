@@ -70,6 +70,7 @@ export function AddAthleteModal({ isOpen, onClose }: AddAthleteProps) {
       onClose={onClose}
       isOpen={isOpen}
       subtitle="Informações"
+      containerId="add-modal"
     >
       <Container onSubmit={handleSubmit(handleAddAthlete)}>
         <label>

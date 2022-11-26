@@ -17,7 +17,12 @@ const CreateWorkoutModal = ({ isOpen, onClose }: CreateWorkoutModalProps) => {
     setSelectedMuscle(muscle);
   }
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Joaquim dos Santos">
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      title="Joaquim dos Santos"
+      containerId="createWorkout-modal"
+    >
       <>
         <h2>Criar Treino</h2>
         <Select

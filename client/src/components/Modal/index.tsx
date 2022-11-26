@@ -1,7 +1,7 @@
-import { Overlay, ModalBody } from './styles';
-import { AiOutlineClose } from 'react-icons/ai';
 import { ReactElement } from 'react';
 import ReactDOM from 'react-dom';
+import { Overlay, ModalBody } from './styles';
+import { AiOutlineClose } from 'react-icons/ai';
 
 interface ModalProps {
   onClose: () => void;
