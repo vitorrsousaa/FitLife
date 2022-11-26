@@ -1,6 +1,7 @@
 import { Overlay, ModalBody } from './styles';
 import { AiOutlineClose } from 'react-icons/ai';
 import { ReactElement } from 'react';
+import ReactDOM from 'react-dom';
 
 interface ModalProps {
   onClose: () => void;
@@ -8,6 +9,7 @@ interface ModalProps {
   title: string;
   subtitle?: string;
   children: ReactElement;
+  containerId?: string;
 }
 
 export function Modal({
@@ -16,12 +18,21 @@ export function Modal({
   isOpen,
   subtitle,
   children,
+  containerId = 'modal-root',
 }: ModalProps) {
   if (!isOpen) {
     return null;
   }
 
-  return (
+  let container = document.getElementById(containerId);
+
+  if (!container) {
+    container = document.createElement('div');
+    container.setAttribute('id', containerId);
+    document.body.appendChild(container);
+  }
+
+  return ReactDOM.createPortal(
     <Overlay>
       <ModalBody>
         <header>
@@ -35,6 +46,7 @@ export function Modal({
         )}
         {children}
       </ModalBody>
-    </Overlay>
+    </Overlay>,
+    container
   );
 }
