@@ -140,6 +140,7 @@ Afim de facilitar a organização e manutenção do código, foi definido um pad
 → components: Todos os componentes globais do projeto; <br />
 → context: Armazena os contextos da aplicação; <br />
 → services: Todos os acessos externos; <br />
+→ types: Todos as interfaces que são utilizadas em diversos locais da aplicação; <br />
 → hooks: Custom hooks; <br />
 
 Todos os componentes criados vão seguir uma mesma estrutura de organização:
