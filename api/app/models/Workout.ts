@@ -12,10 +12,6 @@ export const Workout = model(
       required: true,
       ref: 'Athlete',
     },
-    description: {
-      type: String,
-      required: true,
-    },
     createdAt: {
       type: Date,
       default: Date.now,

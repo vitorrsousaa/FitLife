@@ -32,6 +32,7 @@ interface FormAddExercise {
   exerciseId: string;
   minRange: number;
   maxRange: number;
+  description: string;
 }
 
 const formAddExerciseSchema = yup.object().shape({
@@ -57,6 +58,7 @@ const formAddExerciseSchema = yup.object().shape({
     .positive('Range máximo precisa ser positivo')
     .integer('Range máximos precisa ser inteiro')
     .required('Range máximo obrigatório'),
+  description: yup.string().typeError('Precisa ser um texto'),
 });
 
 const CreateWorkoutModal = ({ isOpen, onClose }: CreateWorkoutModalProps) => {
@@ -248,6 +250,16 @@ const CreateWorkoutModal = ({ isOpen, onClose }: CreateWorkoutModalProps) => {
             >
               <MapGym
                 color={errors.maxRange ? 'var(--error)' : 'var(--gray-100)'}
+              />
+            </Input>
+            <Input
+              type="text"
+              placeholder="Comentários sobre o exercício para o aluno"
+              {...register('description')}
+              error={errors.description}
+            >
+              <MapGym
+                color={errors.description ? 'var(--error)' : 'var(--gray-100)'}
               />
             </Input>
             <Button>Salvar</Button>
