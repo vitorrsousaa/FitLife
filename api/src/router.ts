@@ -6,6 +6,7 @@ import { listAthletes } from '../app/useCases/Athlete/listAthletes';
 import { listAthletesById } from '../app/useCases/Athlete/listAthletesById';
 import { createData } from '../app/useCases/Data/createData';
 import { listData } from '../app/useCases/Data/listData';
+import { listDataByAthlete } from '../app/useCases/Data/listDataByAthlete';
 import { createExercise } from '../app/useCases/Exercise/createExercise';
 import { listExerciseById } from '../app/useCases/Exercise/listExerciseById';
 import { listExerciseByMuscle } from '../app/useCases/Exercise/listExerciseByMuscle';
@@ -69,8 +70,11 @@ router.patch('/workout/:workoutId', updateWorkout);
 // Delete Workout
 router.delete('/workout/:workoutId', deleteWorkout);
 
+// List Data by athlete
+router.get('/data/:athleteId', listDataByAthlete);
+
 // List Data
-router.get('/data/:athleteId', listData);
+router.get('/data', listData);
 
 // Create Data
 router.post('/data/:athleteId', createData);

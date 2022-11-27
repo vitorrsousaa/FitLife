@@ -3,7 +3,7 @@ import { Athlete } from '../../models/Athlete';
 
 export async function listAthletes(req: Request, res: Response) {
   try {
-    const athlete = await Athlete.find();
+    const athlete = await Athlete.find().sort({ name: 1 });
 
     if (athlete.length === 0) {
       return res.status(400).json({

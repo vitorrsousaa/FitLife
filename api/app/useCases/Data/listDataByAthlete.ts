@@ -1,9 +1,13 @@
 import { Request, Response } from 'express';
 import { Data } from '../../models/Data';
 
-export async function listData(req: Request, res: Response) {
+export async function listDataByAthlete(req: Request, res: Response) {
   try {
+    const { athleteId } = req.params;
+
     const data = await Data.find()
+      .where('athlete')
+      .equals(athleteId)
       .populate('exercises.exercise')
       .populate('athlete');
 

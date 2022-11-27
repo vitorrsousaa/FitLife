@@ -128,9 +128,10 @@ Features que estão sendo adicionadas na aplicação
 
 **Back-end**
 
--  [ ] Alterar o método para findOne
--  [ ] Definir um retorno por ordem alfabética dos elementos
--  [ ] Passar propriedade populate para todos os useCases que são necessários
+-  [x] Alterar o método para findOne
+-  [ ] Estruturar uma forma de linkar o data com o workout
+-  [x] Definir um retorno por ordem alfabética dos elementos
+-  [x] Passar propriedade populate para todos os useCases que são necessários
 -  [ ] Editar resposta de erro quando é solicitado os Exercises de um Muscle, mas ele não possui Exercises
 
 ## 🛠 Estrutura de pastas e componentes

@@ -13,6 +13,8 @@ export async function listExerciseByMuscle(req: Request, res: Response) {
 
     const exercises = await Exercise.find().where('muscle').equals(muscleId);
 
+    console.log(exercises);
+
     if (exercises.length === 0) {
       return res.status(400).json({
         error: 'We dont have exercise for this muscle',

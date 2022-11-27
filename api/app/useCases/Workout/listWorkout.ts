@@ -3,7 +3,9 @@ import { Workout } from '../../models/Workout';
 
 export async function listWorkout(req: Request, res: Response) {
   try {
-    const workout = await Workout.find().populate('exercises.exercise');
+    const workout = await Workout.find()
+      .populate('exercises.exercise')
+      .sort({ createdAt: -1 });
 
     if (workout.length === 0) {
       return res.status(400).json({

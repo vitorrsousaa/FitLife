@@ -5,7 +5,10 @@ export async function listWorkoutByAthlete(req: Request, res: Response) {
   try {
     const { athleteId } = req.params;
 
-    const workout = await Workout.find().where('athlete').equals(athleteId);
+    const workout = await Workout.find()
+      .where('athlete')
+      .equals(athleteId)
+      .sort({ createdAt: -1 });
 
     if (workout.length === 0) {
       return res.status(400).json({
