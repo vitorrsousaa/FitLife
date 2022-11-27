@@ -10,6 +10,8 @@ import { Weight } from '../icons/Weight';
 import { Input } from '../Input';
 import { Modal } from '../Modal';
 import { Container, ContainerButtons, LabelGender } from './styles';
+import { api } from '../../services/api';
+import Loading from '../Loading';
 
 interface AddAthleteProps {
   isOpen: boolean;
@@ -41,6 +43,7 @@ const formAthleteSchema = yup.object().shape({
 });
 
 export function AddAthleteModal({ isOpen, onClose }: AddAthleteProps) {
+  const [isLoading, setIsLoading] = useState(false);
   const { register, handleSubmit, formState, setValue, reset } =
     useForm<FormAthlete>({
       resolver: yupResolver(formAthleteSchema),
@@ -58,14 +61,18 @@ export function AddAthleteModal({ isOpen, onClose }: AddAthleteProps) {
     setValue('gender', gender);
   }
 
-  const handleAddAthlete: SubmitHandler<FormAthlete> = (
+  const handleAddAthlete: SubmitHandler<FormAthlete> = async (
     data: FormAthlete,
     event
   ) => {
+    setIsLoading(true);
     event?.preventDefault;
-    console.log(data);
 
-    console.log('toaqui dentro');
+    await api.post('/athlete', data);
+
+    setIsLoading(false);
+
+    handleCancelModal();
   };
 
   function handleCancelModal() {
@@ -155,10 +162,16 @@ export function AddAthleteModal({ isOpen, onClose }: AddAthleteProps) {
         </label>
 
         <ContainerButtons>
-          <Button icon type="submit">
-            Adicionar atleta
-          </Button>
-          <Button onPress={handleCancelModal}>Cancelar</Button>
+          {isLoading ? (
+            <Loading />
+          ) : (
+            <>
+              <Button icon type="submit">
+                Adicionar atleta
+              </Button>
+              <Button onPress={handleCancelModal}>Cancelar</Button>
+            </>
+          )}
         </ContainerButtons>
       </Container>
     </Modal>
