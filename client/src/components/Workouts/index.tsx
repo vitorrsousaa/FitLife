@@ -12,13 +12,11 @@ import Loading from '../Loading';
 
 export function Workouts() {
   const [isOpenAddAthleteModal, setIsOpenAddAthleteModal] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [athletes, setAthletes] = useState<Athlete[]>([]);
 
   useEffect(() => {
-    setIsLoading(true);
-
-    api.get('athlete').then((response) => setAthletes(response.data));
+    api.get('/athlete').then((response) => setAthletes(response.data));
 
     setIsLoading(false);
   }, []);

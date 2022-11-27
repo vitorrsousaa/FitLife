@@ -34,24 +34,14 @@ export const Data = model(
                   type: Date,
                   default: Date.now,
                 },
-                sets: {
+
+                charge: {
                   type: Number,
                   required: true,
                 },
-                data: {
+                reps: {
+                  type: Number,
                   required: true,
-                  type: [
-                    {
-                      charge: {
-                        type: Number,
-                        required: true,
-                      },
-                      reps: {
-                        type: Number,
-                        required: true,
-                      },
-                    },
-                  ],
                 },
               },
             ],

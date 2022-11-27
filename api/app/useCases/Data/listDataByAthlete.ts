@@ -8,13 +8,9 @@ export async function listDataByAthlete(req: Request, res: Response) {
     const data = await Data.find()
       .where('athlete')
       .equals(athleteId)
-      .populate('exercises.exercise');
-
-    if (data.length === 0) {
-      return res.status(400).json({
-        error: 'This athlete does not have a data!',
-      });
-    }
+      .populate('exercises.exercise')
+      .populate('workout')
+      .sort({ createdAt: -1 });
 
     res.status(201).json(data);
   } catch (error) {

@@ -75,7 +75,7 @@ router.delete('/workout/:workoutId', deleteWorkout);
 router.get('/data', listData);
 
 // List Data by athlete
-router.get('/data/:athleteId', listDataByAthlete);
+router.get('/data/athlete/:athleteId', listDataByAthlete);
 
 // List Data by Workout
 router.get('/data/workout/:workoutId', listDataByWorkout);

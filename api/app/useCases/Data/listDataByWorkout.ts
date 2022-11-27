@@ -8,7 +8,9 @@ export async function listDataByWorkout(req: Request, res: Response) {
     const data = await Data.find()
       .where('workout')
       .equals(workoutId)
-      .populate('exercises.exercise');
+      .populate('exercises.exercise')
+      .populate('workout')
+      .sort({ createdAt: -1 });
 
     if (data.length === 0) {
       return res.status(400).json({

@@ -1,6 +1,8 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { api } from '../../services/api';
+import { Data } from '../../types/Data';
 import { Workout } from '../../types/Workout';
+import { formatDate } from '../../utils/formatDate';
 import Divider from '../Divider';
 import Loading from '../Loading';
 import { Modal } from '../Modal';
@@ -26,8 +28,10 @@ const ShowWorkoutModal = ({
   athleteId,
 }: ShowWorkoutModalProps) => {
   const [workouts, setWorkouts] = useState<Workout[]>([]);
+  const [data, setData] = useState<Data[]>([]);
   const [selectedWorkout, setSelectedWorkout] = useState('');
-  const [isWorkoutLoading, setIsWorkoutLoading] = useState(false);
+  const [isWorkoutLoading, setIsWorkoutLoading] = useState(true);
+  const [isDataLoading, setIsDataLoading] = useState(true);
 
   async function handleSelectedWorkout(workoutId: string) {
     const workout = selectedWorkout === workoutId ? '' : workoutId;
@@ -36,14 +40,28 @@ const ShowWorkoutModal = ({
   }
 
   useEffect(() => {
-    setIsWorkoutLoading(true);
+    Promise.all([
+      api.get(`/workout/athlete/${athleteId}`),
+      api.get(`/data/athlete/${athleteId}`),
+    ]).then(([workoutsResponse, dataResponse]) => {
+      setWorkouts(workoutsResponse.data);
+      setData(dataResponse.data);
+      setIsWorkoutLoading(false);
+      setIsDataLoading(false);
+    });
 
-    api
-      .get(`/workout/athlete/${athleteId}`)
-      .then((response) => setWorkouts(response.data));
+    // api
+    //   .get(`/workout/athlete/${athleteId}`)
+    //   .then((response) => setWorkouts(response.data));
 
-    setIsWorkoutLoading(false);
+    // api
+    //   .get(`/data/athlete/${athleteId}`)
+    //   .then((response) => setData(response.data));
+
+    // setIsWorkoutLoading(false);
   }, []);
+
+  console.log(data);
 
   return (
     <Modal
@@ -76,100 +94,50 @@ const ShowWorkoutModal = ({
           )}
         </ContainerCategory>
 
-        <Header>
-          <h2>Treino A</h2>
-          <p>22/11/2022</p>
-        </Header>
-        <ContainerWorkout>
-          <h3>Supino inclinado com halteres</h3>
-          <p>Atentar para a altura correta do banco durante a execução</p>
-          <ContentWorkout>
-            <h4>Works Sets</h4>
-            <section>
-              <div>
-                <p>Sets</p>
-                <p>Reps</p>
-                <p>Kg</p>
+        {isDataLoading ? (
+          <Loading size="5rem" />
+        ) : (
+          data.map((workouts) => {
+            return (
+              <div key={workouts._id}>
+                <Header>
+                  <h2>{workouts.workout.title}</h2>
+                  <p>{formatDate(workouts.createdAt)}</p>
+                </Header>
+
+                {workouts.exercises.map(({ exercise, info }) => (
+                  <>
+                    <ContainerWorkout key={exercise._id}>
+                      <div>
+                        <h3>{exercise.name}</h3>
+                        {exercise.description && <p>{exercise.description}</p>}
+                      </div>
+                      <ContentWorkout>
+                        <h4>Works sets</h4>
+                        <section>
+                          <div>
+                            <p>Sets</p>
+                            <p>Reps</p>
+                            <p>Kg</p>
+                          </div>
+                          {info.map((infoData) => (
+                            <div key={infoData._id}>
+                              <p>W</p>
+                              <p>{infoData.reps}</p>
+                              <p>{infoData.charge}</p>
+                            </div>
+                          ))}
+                        </section>
+                      </ContentWorkout>
+                    </ContainerWorkout>
+                    <Divider />
+                  </>
+                ))}
               </div>
-              <div>
-                <p>W</p>
-                <p>8</p>
-                <p>20</p>
-              </div>
-              <div>
-                <p>W</p>
-                <p>7</p>
-                <p>20</p>
-              </div>
-              <div>
-                <p>W</p>
-                <p>7</p>
-                <p>20</p>
-              </div>
-            </section>
-          </ContentWorkout>
-        </ContainerWorkout>
-        <Divider />
-        <ContainerWorkout>
-          <h3>Supino inclinado com halteres</h3>
-          <p>Atentar para a altura correta do banco durante a execução</p>
-          <ContentWorkout>
-            <h4>Works Sets</h4>
-            <section>
-              <div>
-                <p>Sets</p>
-                <p>Reps</p>
-                <p>Kg</p>
-              </div>
-              <div>
-                <p>W</p>
-                <p>8</p>
-                <p>20</p>
-              </div>
-              <div>
-                <p>W</p>
-                <p>7</p>
-                <p>20</p>
-              </div>
-              <div>
-                <p>W</p>
-                <p>7</p>
-                <p>20</p>
-              </div>
-            </section>
-          </ContentWorkout>
-        </ContainerWorkout>
-        <Divider />
-        <ContainerWorkout>
-          <h3>Supino inclinado com halteres</h3>
-          <p>Atentar para a altura correta do banco durante a execução</p>
-          <ContentWorkout>
-            <h4>Works Sets</h4>
-            <section>
-              <div>
-                <p>Sets</p>
-                <p>Reps</p>
-                <p>Kg</p>
-              </div>
-              <div>
-                <p>W</p>
-                <p>8</p>
-                <p>20</p>
-              </div>
-              <div>
-                <p>W</p>
-                <p>7</p>
-                <p>20</p>
-              </div>
-              <div>
-                <p>W</p>
-                <p>7</p>
-                <p>20</p>
-              </div>
-            </section>
-          </ContentWorkout>
-        </ContainerWorkout>
-        <Divider />
+            );
+          })
+        )}
+
         <div>
           {/* <Button
             style={{ background: 'var(--error)', marginTop: '2rem' }}

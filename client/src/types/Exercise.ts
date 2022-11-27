@@ -3,4 +3,5 @@ export interface Exercise {
   name: string;
   __v: number;
   muscle: string;
+  description?: string;
 }

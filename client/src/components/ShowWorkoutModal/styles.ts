@@ -7,6 +7,7 @@ export const Header = styled.div`
   align-items: center;
   justify-content: space-between;
   width: 100%;
+  margin-top: 2rem;
 
   & > :first-child {
     font-weight: 500;
