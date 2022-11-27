@@ -139,3 +139,10 @@ export const Exercise = styled.div`
     font-size: 1.5rem;
   }
 `;
+
+export const ContainerAddExerciseModal = styled.form`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 1rem;
+`;
