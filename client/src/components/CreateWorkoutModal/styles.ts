@@ -1,21 +1,5 @@
 import styled from 'styled-components';
 
-export const Select = styled.select`
-  border: 1px solid rgba(58, 58, 60, 0.6);
-  border-radius: 4px;
-  height: 3.438rem;
-  padding: 1rem 1.5rem;
-  background: transparent;
-
-  font-weight: 400;
-  font-size: 1rem;
-  color: rgba(58, 58, 60, 0.6);
-  outline: none;
-
-  -webkit-appearance: none;
-  background: url(http://localhost:5173/public/arrow.svg) center right no-repeat;
-`;
-
 export const ContainerInput = styled.label`
   width: 100%;
   display: flex;
@@ -57,11 +41,11 @@ export const MuscleContainer = styled.div`
   margin-bottom: 2rem;
 `;
 
-interface MuscleProps {
+interface MuscleContentProps {
   disabled: boolean;
 }
 
-export const Muscle = styled.div<MuscleProps>`
+export const MuscleContent = styled.div<MuscleContentProps>`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -108,9 +92,26 @@ export const ExerciseContainer = styled.div`
     font-weight: 600;
     font-size: 1.5rem;
   }
+
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    width: 0.5rem;
+    border-radius: 2rem;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: var(--gray);
+    border-radius: 2rem;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--primary);
+
+    border-radius: 2rem;
+  }
 `;
 
-export const Exercise = styled.div`
+export const ExerciseContent = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -125,7 +126,7 @@ export const Exercise = styled.div`
   }
 
   button {
-    border-radius: 100%;
+    border-radius: 0.725rem;
     border: solid 2px var(--primary);
     background: transparent;
     color: var(--primary);

@@ -2,15 +2,7 @@ import React from 'react';
 
 import { Container } from './styles';
 
-interface LoadingProps {
-  isLoading: boolean;
-}
-
-const Loading = ({ isLoading }: LoadingProps) => {
-  if (!isLoading) {
-    return null;
-  }
-
+const Loading = () => {
   return (
     <Container>
       <div className="loader"></div>

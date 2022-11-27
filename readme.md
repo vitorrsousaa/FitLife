@@ -119,7 +119,7 @@ Features que estão sendo adicionadas na aplicação
 -  [ ] Adicionar Modal para criação de treino
 -  [ ] Adicionar busca pelo nome dos alunos no input da home
 -  [x] Adicionar validação dos erros no form para adicionar atleta
--  [ ] Adicionar validação dos erros no forma para criar treino
+-  [x] Adicionar validação dos erros no forma para criar treino
 
 **Front-end Mobile**
 
@@ -129,7 +129,9 @@ Features que estão sendo adicionadas na aplicação
 **Back-end**
 
 -  [ ] Alterar o método para findOne
+-  [ ] Definir um retorno por ordem alfabética dos elementos
 -  [ ] Passar propriedade populate para todos os useCases que são necessários
+-  [ ] Editar resposta de erro quando é solicitado os Exercises de um Muscle, mas ele não possui Exercises
 
 ## 🛠 Estrutura de pastas e componentes
 

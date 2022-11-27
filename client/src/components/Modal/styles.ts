@@ -26,7 +26,7 @@ export const ModalBody = styled.div`
 
   padding: 2rem;
   gap: 2rem;
-  width: 30rem;
+  width: 35rem;
 
   header {
     display: flex;

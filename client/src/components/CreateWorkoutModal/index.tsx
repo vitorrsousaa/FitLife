@@ -1,7 +1,10 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import * as yup from 'yup';
+import { api } from '../../services/api';
+import { Exercise } from '../../types/Exercise';
+import { Muscle } from '../../types/Muscle';
 
 import Button from '../Button';
 import Divider from '../Divider';
@@ -13,9 +16,9 @@ import { Modal } from '../Modal';
 import {
   ContainerAddExerciseModal,
   ContainerInput,
-  Exercise,
+  ExerciseContent,
   ExerciseContainer,
-  Muscle,
+  MuscleContent,
   MuscleContainer,
 } from './styles';
 
@@ -52,8 +55,14 @@ const formAddExerciseSchema = yup.object().shape({
 });
 
 const CreateWorkoutModal = ({ isOpen, onClose }: CreateWorkoutModalProps) => {
-  const muscles = ['Dorsal', 'Biceps', 'Triceps', 'Perna', 'Ombro', 'Peito'];
-
+  // const muscles = ['Dorsal', 'Biceps', 'Triceps', 'Perna', 'Ombro', 'Peito'];
+  const [isLoadingMuscles, setLoadingMuscles] = useState(false);
+  const [isLoadingExercises, setLoadingExercises] = useState(false);
+  const [selectedMuscle, setSelectedMuscle] = useState('');
+  const [titleTraining, setIsTitleTraining] = useState('');
+  const [muscles, setMuscles] = useState<Muscle[]>([]);
+  const [exercises, setExercises] = useState<Exercise[]>([]);
+  const [isAddExerciseModal, setIsAddExerciseModal] = useState(false);
   const { register, handleSubmit, formState, reset } = useForm<FormAddExercise>(
     {
       resolver: yupResolver(formAddExerciseSchema),
@@ -62,13 +71,32 @@ const CreateWorkoutModal = ({ isOpen, onClose }: CreateWorkoutModalProps) => {
 
   const { errors } = formState;
 
-  const [selectedMuscle, setSelectedMuscle] = useState('');
-  const [titleTraining, setIsTitleTraining] = useState('');
+  useEffect(() => {
+    setLoadingMuscles(true);
+    api.get('/muscles').then((response) => setMuscles(response.data));
 
-  function handleSelectedMuscle(muscleId: string) {
+    setLoadingMuscles(false);
+  }, []);
+
+  async function handleSelectedMuscle(muscleId: string) {
     const muscle = selectedMuscle === muscleId ? '' : muscleId;
 
     setSelectedMuscle(muscle);
+
+    if (muscle) {
+      setLoadingExercises(true);
+
+      const route = muscle && `/exercises/${muscleId}/muscle`;
+
+      try {
+        const { data } = await api.get(route);
+        setExercises(data);
+      } catch (error) {
+        console.log(error);
+      }
+
+      setLoadingExercises(false);
+    }
   }
 
   function handleChangeTitle(event: string) {
@@ -87,7 +115,6 @@ const CreateWorkoutModal = ({ isOpen, onClose }: CreateWorkoutModalProps) => {
     reset();
   }
 
-  const [isAddExerciseModal, setIsAddExerciseModal] = useState(false);
   const handleExerciseModal: SubmitHandler<FormAddExercise> = (
     data: FormAddExercise,
     event
@@ -115,32 +142,45 @@ const CreateWorkoutModal = ({ isOpen, onClose }: CreateWorkoutModalProps) => {
           </ContainerInput>
 
           <MuscleContainer>
-            {muscles.map((muscle) => {
-              const isSelected = selectedMuscle === muscle;
+            {isLoadingMuscles ? (
+              <Loading />
+            ) : (
+              muscles.map((muscle) => {
+                const isSelected = selectedMuscle === muscle._id;
 
-              return (
-                <Muscle
-                  key={muscle}
-                  onClick={() => handleSelectedMuscle(muscle)}
-                  disabled={isSelected}
-                >
-                  <p>💪</p>
-                  <p>{muscle}</p>
-                </Muscle>
-              );
-            })}
+                return (
+                  <MuscleContent
+                    key={muscle._id}
+                    onClick={() => handleSelectedMuscle(muscle._id)}
+                    disabled={isSelected}
+                  >
+                    <p>💪</p>
+                    <p>{muscle.name}</p>
+                  </MuscleContent>
+                );
+              })
+            )}
           </MuscleContainer>
 
           <ExerciseContainer>
             {selectedMuscle.length > 0 ? (
-              <Exercise>
-                <p>Remada Curvada</p>
-                <button onClick={() => setIsAddExerciseModal(true)}>+</button>
-              </Exercise>
+              isLoadingExercises ? (
+                <Loading />
+              ) : (
+                <>
+                  {exercises.map((exercise) => (
+                    <ExerciseContent key={exercise._id}>
+                      <p>{exercise.name}</p>
+                      <button onClick={() => setIsAddExerciseModal(true)}>
+                        +
+                      </button>
+                    </ExerciseContent>
+                  ))}
+                </>
+              )
             ) : (
               <>
-                <h2>Nenhum exercício encontrado!</h2>
-                <Loading isLoading={true} />
+                <h2>Selecione um músculo!</h2>
               </>
             )}
           </ExerciseContainer>
