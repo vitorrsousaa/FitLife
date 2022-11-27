@@ -3,7 +3,7 @@ import { Workout } from '../../models/Workout';
 
 export async function listWorkout(req: Request, res: Response) {
   try {
-    const workout = await Workout.find();
+    const workout = await Workout.find().populate('exercises.exercise');
 
     if (workout.length === 0) {
       return res.status(400).json({

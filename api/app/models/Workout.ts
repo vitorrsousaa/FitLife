@@ -7,11 +7,6 @@ export const Workout = model(
       type: String,
       required: true,
     },
-    muscle: {
-      type: Schema.Types.ObjectId,
-      required: true,
-      ref: 'Muscle',
-    },
     athlete: {
       type: Schema.Types.ObjectId,
       required: true,
@@ -30,7 +25,7 @@ export const Workout = model(
       type: [
         {
           exercise: {
-            type: Schema.Types.Mixed,
+            type: Schema.Types.ObjectId,
             required: true,
             ref: 'Exercise',
           },

@@ -29,11 +29,16 @@ interface CreateWorkoutModalProps {
 
 interface FormAddExercise {
   sets: number;
+  exerciseId: string;
   minRange: number;
   maxRange: number;
 }
 
 const formAddExerciseSchema = yup.object().shape({
+  exerciseId: yup
+    .string()
+    .typeError('Exercício é obrigatório')
+    .required('É obrigatório'),
   sets: yup
     .number()
     .typeError('Work-sets é obrigatório')
@@ -59,15 +64,15 @@ const CreateWorkoutModal = ({ isOpen, onClose }: CreateWorkoutModalProps) => {
   const [isLoadingMuscles, setLoadingMuscles] = useState(false);
   const [isLoadingExercises, setLoadingExercises] = useState(false);
   const [selectedMuscle, setSelectedMuscle] = useState('');
+
   const [titleTraining, setIsTitleTraining] = useState('');
   const [muscles, setMuscles] = useState<Muscle[]>([]);
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [isAddExerciseModal, setIsAddExerciseModal] = useState(false);
-  const { register, handleSubmit, formState, reset } = useForm<FormAddExercise>(
-    {
+  const { register, handleSubmit, formState, reset, setValue } =
+    useForm<FormAddExercise>({
       resolver: yupResolver(formAddExerciseSchema),
-    }
-  );
+    });
 
   const { errors } = formState;
 
@@ -108,6 +113,11 @@ const CreateWorkoutModal = ({ isOpen, onClose }: CreateWorkoutModalProps) => {
     setSelectedMuscle('');
     reset();
     onClose();
+  }
+
+  function handleOpenAddExercise(exerciseId: string) {
+    setIsAddExerciseModal(true);
+    setValue('exerciseId', exerciseId);
   }
 
   function handleCancelAddExercise() {
@@ -171,7 +181,9 @@ const CreateWorkoutModal = ({ isOpen, onClose }: CreateWorkoutModalProps) => {
                   {exercises.map((exercise) => (
                     <ExerciseContent key={exercise._id}>
                       <p>{exercise.name}</p>
-                      <button onClick={() => setIsAddExerciseModal(true)}>
+                      <button
+                        onClick={() => handleOpenAddExercise(exercise._id)}
+                      >
                         +
                       </button>
                     </ExerciseContent>

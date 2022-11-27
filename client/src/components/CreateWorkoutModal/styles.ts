@@ -93,7 +93,7 @@ export const ExerciseContainer = styled.div`
     font-size: 1.5rem;
   }
 
-  overflow-y: auto;
+  overflow-y: scroll;
   &::-webkit-scrollbar {
     width: 0.5rem;
     border-radius: 2rem;

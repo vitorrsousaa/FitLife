@@ -16,13 +16,8 @@ export const Data = model(
       required: true,
       type: [
         {
-          _id: {
+          exercise: {
             type: Schema.Types.ObjectId,
-            required: true,
-            ref: 'Exercise',
-          },
-          name: {
-            type: String,
             required: true,
             ref: 'Exercise',
           },
