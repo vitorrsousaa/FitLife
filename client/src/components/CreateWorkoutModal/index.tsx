@@ -75,6 +75,18 @@ const CreateWorkoutModal = ({ isOpen, onClose }: CreateWorkoutModalProps) => {
     setIsTitleTraining(event);
   }
 
+  function handleCancelCreatedTraining() {
+    setIsTitleTraining('');
+    setSelectedMuscle('');
+    reset();
+    onClose();
+  }
+
+  function handleCancelAddExercise() {
+    setIsAddExerciseModal(false);
+    reset();
+  }
+
   const [isAddExerciseModal, setIsAddExerciseModal] = useState(false);
   const handleExerciseModal: SubmitHandler<FormAddExercise> = (
     data: FormAddExercise,
@@ -88,7 +100,7 @@ const CreateWorkoutModal = ({ isOpen, onClose }: CreateWorkoutModalProps) => {
     <>
       <Modal
         isOpen={isOpen}
-        onClose={onClose}
+        onClose={handleCancelCreatedTraining}
         title="Joaquim dos Santos"
         containerId="createWorkout-modal"
       >
@@ -148,7 +160,7 @@ const CreateWorkoutModal = ({ isOpen, onClose }: CreateWorkoutModalProps) => {
 
       <Modal
         isOpen={isAddExerciseModal}
-        onClose={() => setIsAddExerciseModal(false)}
+        onClose={handleCancelAddExercise}
         title="Adicionar exercício"
         containerId="createWorkout-modal"
       >
@@ -162,21 +174,29 @@ const CreateWorkoutModal = ({ isOpen, onClose }: CreateWorkoutModalProps) => {
               {...register('sets')}
               error={errors.sets}
             >
-              <MapGym />
+              <MapGym
+                color={errors.sets ? 'var(--error)' : 'var(--gray-100)'}
+              />
             </Input>
             <Input
               type="number"
               placeholder="Qual o mínimo de repetições?"
               {...register('minRange')}
+              error={errors.minRange}
             >
-              <MapGym />
+              <MapGym
+                color={errors.minRange ? 'var(--error)' : 'var(--gray-100)'}
+              />
             </Input>
             <Input
               type="number"
               placeholder="Qual o máximo de repetições?"
               {...register('maxRange')}
+              error={errors.maxRange}
             >
-              <MapGym />
+              <MapGym
+                color={errors.maxRange ? 'var(--error)' : 'var(--gray-100)'}
+              />
             </Input>
             <Button>Salvar</Button>
           </ContainerAddExerciseModal>

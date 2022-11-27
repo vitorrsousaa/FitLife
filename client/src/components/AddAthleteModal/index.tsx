@@ -9,7 +9,7 @@ import { Height } from '../icons/Height';
 import { Weight } from '../icons/Weight';
 import { Input } from '../Input';
 import { Modal } from '../Modal';
-import { ButtonGender, Container, ContainerButtons } from './styles';
+import { Container, ContainerButtons, LabelGender } from './styles';
 
 interface AddAthleteProps {
   isOpen: boolean;
@@ -64,6 +64,8 @@ export function AddAthleteModal({ isOpen, onClose }: AddAthleteProps) {
   ) => {
     event?.preventDefault;
     console.log(data);
+
+    console.log('toaqui dentro');
   };
 
   function handleCancelModal() {
@@ -77,7 +79,7 @@ export function AddAthleteModal({ isOpen, onClose }: AddAthleteProps) {
   return (
     <Modal
       title="Adicionar novo atleta"
-      onClose={onClose}
+      onClose={handleCancelModal}
       isOpen={isOpen}
       subtitle="Informações"
       containerId="add-modal"
@@ -106,7 +108,9 @@ export function AddAthleteModal({ isOpen, onClose }: AddAthleteProps) {
               {...register('weight')}
               error={errors.weight}
             >
-              <Weight />
+              <Weight
+                color={errors.weight ? 'var(--error)' : 'var(--gray-100)'}
+              />
             </Input>
           </label>
 
@@ -118,7 +122,9 @@ export function AddAthleteModal({ isOpen, onClose }: AddAthleteProps) {
               {...register('height')}
               error={errors.height}
             >
-              <Height />
+              <Height
+                color={errors.weight ? 'var(--error)' : 'var(--gray-100)'}
+              />
             </Input>
           </label>
         </div>
@@ -126,21 +132,25 @@ export function AddAthleteModal({ isOpen, onClose }: AddAthleteProps) {
         <label>
           <h1>Gênero</h1>
           <div className="gender-details">
-            <ButtonGender
+            <LabelGender
               onClick={handleChangeGender}
               role="button"
               isActive={gender !== 'MASCULINO'}
+              htmlFor="male"
             >
               Masculino
-            </ButtonGender>
-
-            <ButtonGender
+            </LabelGender>
+            <input type="radio" id="male" name="male" />
+            <LabelGender
               onClick={handleChangeGender}
               role="button"
               isActive={gender !== 'FEMININO'}
+              htmlFor="female"
+              itemID=""
             >
               Feminino
-            </ButtonGender>
+            </LabelGender>
+            <input type="radio" id="female" name="female" />
           </div>
         </label>
 

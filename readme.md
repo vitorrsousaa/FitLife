@@ -118,7 +118,7 @@ Features que estão sendo adicionadas na aplicação
 
 -  [ ] Adicionar Modal para criação de treino
 -  [ ] Adicionar busca pelo nome dos alunos no input da home
--  [ ] Adicionar validação dos erros no form para adicionar atleta
+-  [x] Adicionar validação dos erros no form para adicionar atleta
 -  [ ] Adicionar validação dos erros no forma para criar treino
 
 **Front-end Mobile**
