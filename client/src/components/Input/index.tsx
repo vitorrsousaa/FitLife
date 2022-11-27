@@ -1,7 +1,7 @@
 import { ReactElement } from 'react';
 import { FieldError } from 'react-hook-form';
 import { forwardRef, ForwardRefRenderFunction } from 'react';
-import { Container } from './styles';
+import { ContainerInput, Container } from './styles';
 
 interface InputProps {
   placeholder: string;
@@ -11,13 +11,16 @@ interface InputProps {
 }
 
 const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
-  { placeholder, type, children, ...rest },
+  { placeholder, error, type, children, ...rest },
   ref
 ) => {
   return (
     <Container>
-      {children}
-      <input type={type} placeholder={placeholder} {...rest} ref={ref} />
+      <ContainerInput error={!!error}>
+        {children}
+        <input type={type} placeholder={placeholder} {...rest} ref={ref} />
+      </ContainerInput>
+      {!!error && <p>{error?.message}</p>}
     </Container>
   );
 };

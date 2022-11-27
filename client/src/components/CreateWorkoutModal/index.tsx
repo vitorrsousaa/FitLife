@@ -31,9 +31,24 @@ interface FormAddExercise {
 }
 
 const formAddExerciseSchema = yup.object().shape({
-  sets: yup.number().required('Work-sets obrigatório'),
-  minRange: yup.number().required('Range mínimo obrigatório'),
-  maxRange: yup.number().required('Range máximo obrigatório'),
+  sets: yup
+    .number()
+    .typeError('Work-sets é obrigatório')
+    .positive('Work-sets precisa ser positivo')
+    .integer('Work-sets precisa ser inteiro')
+    .required('Work-sets obrigatório'),
+  minRange: yup
+    .number()
+    .typeError('Range mínimo é obrigatório')
+    .positive('Range mínimo precisa ser positivo')
+    .integer('Range mínimo precisa ser inteiro')
+    .required('Range mínimo obrigatório'),
+  maxRange: yup
+    .number()
+    .typeError('Range máximo é obrigatório')
+    .positive('Range máximo precisa ser positivo')
+    .integer('Range máximos precisa ser inteiro')
+    .required('Range máximo obrigatório'),
 });
 
 const CreateWorkoutModal = ({ isOpen, onClose }: CreateWorkoutModalProps) => {
@@ -44,6 +59,8 @@ const CreateWorkoutModal = ({ isOpen, onClose }: CreateWorkoutModalProps) => {
       resolver: yupResolver(formAddExerciseSchema),
     }
   );
+
+  const { errors } = formState;
 
   const [selectedMuscle, setSelectedMuscle] = useState('');
   const [titleTraining, setIsTitleTraining] = useState('');
@@ -143,6 +160,7 @@ const CreateWorkoutModal = ({ isOpen, onClose }: CreateWorkoutModalProps) => {
               type="number"
               placeholder="Quantas work-sets?"
               {...register('sets')}
+              error={errors.sets}
             >
               <MapGym />
             </Input>
