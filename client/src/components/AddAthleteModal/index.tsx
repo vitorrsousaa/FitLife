@@ -25,8 +25,18 @@ interface FormAthlete {
 
 const formAthleteSchema = yup.object().shape({
   name: yup.string().required('Nome obrigatório'),
-  weight: yup.number().required('Peso obrigatório'),
-  height: yup.number().required('Altura obrigatória'),
+  weight: yup
+    .number()
+    .typeError('Peso obrigatório')
+    .positive('Peso precisa ser positivo')
+    .integer('Peso precisa ser inteiro')
+    .required('Peso obrigatório'),
+  height: yup
+    .number()
+    .typeError('Altura obrigatória')
+    .positive('Altura precisa ser positiva')
+    .integer('Altura precisa ser inteira')
+    .required('Altura obrigatória'),
   gender: yup.string().required('Gênero Obrigatório'),
 });
 
@@ -81,7 +91,9 @@ export function AddAthleteModal({ isOpen, onClose }: AddAthleteProps) {
             {...register('name')}
             error={errors.name}
           >
-            <BsFillPersonFill />
+            <BsFillPersonFill
+              fill={errors.name ? 'var(--error)' : 'var(--gray-100)'}
+            />
           </Input>
         </label>
 

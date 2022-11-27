@@ -13,6 +13,7 @@ export const Container = styled.form`
 
   .info-details {
     display: flex;
+    justify-content: space-between;
     gap: 2rem;
   }
 
