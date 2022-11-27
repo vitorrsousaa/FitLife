@@ -102,7 +102,7 @@ export const ContentWorkout = styled.div`
   }
 `;
 
-export const SectionsContainer = styled.div`
+export const ContainerCategory = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -111,11 +111,11 @@ export const SectionsContainer = styled.div`
   margin-bottom: 2rem;
 `;
 
-interface SectionProps {
+interface CategoryProps {
   disabled: boolean;
 }
 
-export const Section = styled.div<SectionProps>`
+export const Category = styled.div<CategoryProps>`
   display: flex;
   flex-direction: column;
   justify-content: center;

@@ -11,21 +11,9 @@ export async function createWorkout(req: Request, res: Response) {
       });
     }
 
-    if (!muscle) {
-      return res.status(400).json({
-        error: 'Muscle is required',
-      });
-    }
-
     if (!athlete) {
       return res.status(400).json({
         error: 'Athlete is required',
-      });
-    }
-
-    if (!description) {
-      return res.status(400).json({
-        error: 'Description is required',
       });
     }
 

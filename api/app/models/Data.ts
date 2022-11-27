@@ -15,7 +15,7 @@ export const Data = model(
     workout: {
       type: Schema.Types.ObjectId,
       required: true,
-      ref: 'Exercise',
+      ref: 'Workout',
     },
     exercises: {
       required: true,

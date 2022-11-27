@@ -16,7 +16,7 @@ export const Container = styled.div<ContainerProps>`
   .loader {
     width: ${({ size }) => (size ? size : '2rem')};
     height: ${({ size }) => (size ? size : '2rem')};
-    border: 6px solid ${({ color }) => (color ? color : 'var(--gray)')};
+    border: 6px solid ${({ color }) => (color ? color : 'var(--black)')};
     border-top-color: var(--primary);
     border-radius: 100%;
 

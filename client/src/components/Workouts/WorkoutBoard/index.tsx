@@ -51,6 +51,7 @@ const WorkoutBoard = ({ athlete }: WorkoutBoardProps) => {
       <ShowWorkoutModal
         isOpen={isShowWorkoutVisible}
         onClose={() => setIsShowWorkoutVisible(false)}
+        athleteId={athlete._id}
       />
 
       <CreateWorkoutModal

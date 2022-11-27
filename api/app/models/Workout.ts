@@ -27,7 +27,6 @@ export const Workout = model(
           },
           sets: {
             type: Number,
-            default: 1,
             required: true,
           },
           minRange: {

@@ -1,31 +1,49 @@
-import { useState } from 'react';
-import Button from '../Button';
+import { useEffect, useState } from 'react';
+import { api } from '../../services/api';
+import { Workout } from '../../types/Workout';
 import Divider from '../Divider';
+import Loading from '../Loading';
 import { Modal } from '../Modal';
 
 import {
+  Category,
   Container,
   ContainerWorkout,
   ContentWorkout,
   Header,
-  Section,
-  SectionsContainer,
+  ContainerCategory,
 } from './styles';
 
 interface ShowWorkoutModalProps {
   onClose: () => void;
   isOpen: boolean;
+  athleteId: string;
 }
 
-const ShowWorkoutModal = ({ onClose, isOpen }: ShowWorkoutModalProps) => {
-  const trainings = ['Treino A', 'Treino B', 'Treino C'];
-  const [selectedTraining, setSelectedTraining] = useState('');
+const ShowWorkoutModal = ({
+  onClose,
+  isOpen,
+  athleteId,
+}: ShowWorkoutModalProps) => {
+  const [workouts, setWorkouts] = useState<Workout[]>([]);
+  const [selectedWorkout, setSelectedWorkout] = useState('');
+  const [isWorkoutLoading, setIsWorkoutLoading] = useState(false);
 
-  function handleSelectedTraining(trainingId: string) {
-    const training = selectedTraining === trainingId ? '' : trainingId;
+  async function handleSelectedWorkout(workoutId: string) {
+    const workout = selectedWorkout === workoutId ? '' : workoutId;
 
-    setSelectedTraining(training);
+    setSelectedWorkout(workout);
   }
+
+  useEffect(() => {
+    setIsWorkoutLoading(true);
+
+    api
+      .get(`/workout/athlete/${athleteId}`)
+      .then((response) => setWorkouts(response.data));
+
+    setIsWorkoutLoading(false);
+  }, []);
 
   return (
     <Modal
@@ -35,22 +53,28 @@ const ShowWorkoutModal = ({ onClose, isOpen }: ShowWorkoutModalProps) => {
       containerId="showWorkout-modal"
     >
       <Container>
-        <SectionsContainer>
-          {trainings.map((training) => {
-            const isSelected = selectedTraining === training;
+        <ContainerCategory>
+          {isWorkoutLoading ? (
+            <Loading />
+          ) : workouts.length > 0 ? (
+            workouts.map((workout) => {
+              const isSelected = selectedWorkout === workout._id;
 
-            return (
-              <Section
-                key={training}
-                onClick={() => handleSelectedTraining(training)}
-                disabled={isSelected}
-              >
-                <p>💪</p>
-                <p>{training}</p>
-              </Section>
-            );
-          })}
-        </SectionsContainer>
+              return (
+                <Category
+                  key={workout._id}
+                  disabled={isSelected}
+                  onClick={() => handleSelectedWorkout(workout._id)}
+                >
+                  <p>💪</p>
+                  <p>{workout.title}</p>
+                </Category>
+              );
+            })
+          ) : (
+            <h2>Este atleta ainda não possui treino</h2>
+          )}
+        </ContainerCategory>
 
         <Header>
           <h2>Treino A</h2>
@@ -147,12 +171,12 @@ const ShowWorkoutModal = ({ onClose, isOpen }: ShowWorkoutModalProps) => {
         </ContainerWorkout>
         <Divider />
         <div>
-          <Button
+          {/* <Button
             style={{ background: 'var(--error)', marginTop: '2rem' }}
             disabled={selectedTraining === ''}
           >
             Excluir plano de treino
-          </Button>
+          </Button> */}
         </div>
       </Container>
     </Modal>
