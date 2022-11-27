@@ -12,6 +12,11 @@ export const Data = model(
       type: Date,
       default: Date.now,
     },
+    workout: {
+      type: Schema.Types.ObjectId,
+      required: true,
+      ref: 'Exercise',
+    },
     exercises: {
       required: true,
       type: [

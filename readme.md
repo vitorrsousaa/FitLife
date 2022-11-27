@@ -129,7 +129,7 @@ Features que estão sendo adicionadas na aplicação
 **Back-end**
 
 -  [x] Alterar o método para findOne
--  [ ] Estruturar uma forma de linkar o data com o workout
+-  [x] Estruturar uma forma de linkar o data com o workout
 -  [x] Definir um retorno por ordem alfabética dos elementos
 -  [x] Passar propriedade populate para todos os useCases que são necessários
 -  [ ] Editar resposta de erro quando é solicitado os Exercises de um Muscle, mas ele não possui Exercises
@@ -144,6 +144,7 @@ Afim de facilitar a organização e manutenção do código, foi definido um pad
 → components: Todos os componentes globais do projeto; <br />
 → context: Armazena os contextos da aplicação; <br />
 → services: Todos os acessos externos; <br />
+→ utils: Funcionalides que são utilizadas em diversos locais da aplicação; <br />
 → types: Todos as interfaces que são utilizadas em diversos locais da aplicação; <br />
 → hooks: Custom hooks; <br />
 
@@ -158,6 +159,7 @@ Todos os componentes criados vão seguir uma mesma estrutura de organização:
 → components: Todos os componentes globais do projeto; <br />
 → context: Armazena os contextos da aplicação; <br />
 → services: Todos os acessos externos; <br />
+→ utils: Funcionalides que são utilizadas em diversos locais da aplicação; <br />
 → hooks: Custom hooks; <br />
 → routes: Armazena as rotas da aplicação; <br />
 → screens: Armazena as páginas da aplicação; <br />

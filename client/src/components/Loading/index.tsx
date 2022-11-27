@@ -2,9 +2,14 @@ import React from 'react';
 
 import { Container } from './styles';
 
-const Loading = () => {
+interface LoadingProps {
+  color?: string;
+  size?: string;
+}
+
+const Loading = ({ color, size }: LoadingProps) => {
   return (
-    <Container>
+    <Container color={color} size={size}>
       <div className="loader"></div>
     </Container>
   );

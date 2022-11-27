@@ -3,18 +3,19 @@ import { useState } from 'react';
 import { BsFillPersonFill } from 'react-icons/bs';
 import { GiMuscleUp } from 'react-icons/gi';
 import { Gym } from '../../icons/Gym';
-import { GymOutline } from '../../icons/GymOutline';
 import InfoModal from '../../InfoModal';
 import CreateWorkoutModal from '../../CreateWorkoutModal';
 import ShowWorkoutModal from '../../ShowWorkoutModal';
 
 import { ContainerAthlete, ContainerButtons } from './styles';
+import { Athlete } from '../../../types/Athlete';
+import { formatDate } from '../../../utils/formatDate';
 
 interface WorkoutBoardProps {
-  haveTraining: boolean;
+  athlete: Athlete;
 }
 
-const WorkoutBoard = ({ haveTraining }: WorkoutBoardProps) => {
+const WorkoutBoard = ({ athlete }: WorkoutBoardProps) => {
   const [isInfoModalVisible, setIsInfoModalVisible] = useState(false);
   const [isShowWorkoutVisible, setIsShowWorkoutVisible] = useState(false);
   const [isCreateWorkoutVisible, setIsCreateWorkoutVisible] = useState(false);
@@ -23,34 +24,28 @@ const WorkoutBoard = ({ haveTraining }: WorkoutBoardProps) => {
     <>
       <ContainerAthlete>
         <div className="athlete-details">
-          <h1>Vitor Sousa da Silva</h1>
-          <h2>22/11/2022</h2>
+          <h1>{athlete.name}</h1>
+          <h2>{formatDate(athlete.createdAt)}</h2>
         </div>
 
         <ContainerButtons>
           <button onClick={() => setIsInfoModalVisible(true)}>
             <BsFillPersonFill />
           </button>
-          {haveTraining ? (
-            <>
-              <button onClick={() => setIsShowWorkoutVisible(true)}>
-                <GiMuscleUp />
-              </button>
-              <button>
-                <Gym />
-              </button>
-            </>
-          ) : (
-            <button onClick={() => setIsCreateWorkoutVisible(true)}>
-              <GymOutline />
-            </button>
-          )}
+
+          <button onClick={() => setIsShowWorkoutVisible(true)}>
+            <GiMuscleUp />
+          </button>
+          <button onClick={() => setIsCreateWorkoutVisible(true)}>
+            <Gym />
+          </button>
         </ContainerButtons>
       </ContainerAthlete>
 
       <InfoModal
         isOpen={isInfoModalVisible}
         onClose={() => setIsInfoModalVisible(false)}
+        athlete={athlete}
       />
 
       <ShowWorkoutModal

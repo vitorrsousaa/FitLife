@@ -3,13 +3,11 @@ import { Data } from '../../models/Data';
 
 export async function listData(req: Request, res: Response) {
   try {
-    const data = await Data.find()
-      .populate('exercises.exercise')
-      .populate('athlete');
+    const data = await Data.find();
 
     if (data.length === 0) {
       return res.status(400).json({
-        error: 'This athlete does not have a data!',
+        error: 'Not have a data!',
       });
     }
 
