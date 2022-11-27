@@ -4,9 +4,16 @@ import Button from '../Button';
 import Divider from '../Divider';
 import MapGym from '../icons/MapGym';
 import { Input } from '../Input';
+import Loading from '../Loading';
 import { Modal } from '../Modal';
 
-import { ContainerInput, Muscle, MuscleContainer } from './styles';
+import {
+  ContainerInput,
+  Exercise,
+  ExerciseContainer,
+  Muscle,
+  MuscleContainer,
+} from './styles';
 
 interface CreateWorkoutModalProps {
   isOpen: boolean;
@@ -62,14 +69,28 @@ const CreateWorkoutModal = ({ isOpen, onClose }: CreateWorkoutModalProps) => {
           })}
         </MuscleContainer>
 
-        {titleTraining.length > 0 && (
+        <ExerciseContainer>
+          {selectedMuscle.length > 0 ? (
+            <Exercise>
+              <p>Remada Curvada</p>
+              <button>+</button>
+            </Exercise>
+          ) : (
+            <>
+              <h2>Nenhum exercício encontrado!</h2>
+              <Loading isLoading={true} />
+            </>
+          )}
+        </ExerciseContainer>
+
+        {/* {titleTraining.length > 0 && (
           <Button
             disabled={!(selectedMuscle.length > 0)}
             style={{ background: 'var(--primary)' }}
           >
             Adicionar exercícios
           </Button>
-        )}
+        )} */}
         <Divider />
         <Button disabled>Salvar treino</Button>
       </>

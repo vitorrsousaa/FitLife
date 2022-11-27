@@ -91,3 +91,51 @@ export const Muscle = styled.div<MuscleProps>`
     font-size: 0.875rem;
   }
 `;
+
+export const ExerciseContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem;
+  gap: 0.5rem;
+
+  border: 1px solid var(--gray-100);
+  border-radius: 4px;
+  min-height: 7.5rem;
+
+  h2 {
+    font-weight: 600;
+    font-size: 1.5rem;
+  }
+`;
+
+export const Exercise = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+
+  border-bottom: solid 2px var(--primary);
+  width: 100%;
+
+  p {
+    font-weight: 600;
+    font-size: 1.5rem;
+  }
+
+  button {
+    border-radius: 100%;
+    border: solid 2px var(--primary);
+    background: transparent;
+    color: var(--primary);
+    width: 1.5rem;
+    height: 1.5rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 1.5rem;
+  }
+`;
