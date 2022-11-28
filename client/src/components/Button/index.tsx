@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { ButtonHTMLAttributes } from 'react';
 
 import { Container } from './styles';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  children: string;
+  children: string | ReactElement;
   onPress?: () => void;
   icon?: boolean;
   disabled?: boolean;

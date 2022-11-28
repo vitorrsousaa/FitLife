@@ -11,7 +11,10 @@ export async function listExerciseByMuscle(req: Request, res: Response) {
       });
     }
 
-    const exercises = await Exercise.find().where('muscle').equals(muscleId);
+    const exercises = await Exercise.find()
+      .where('muscle')
+      .equals(muscleId)
+      .sort({ title: 1 });
 
     if (exercises.length === 0) {
       return res.status(400).json({

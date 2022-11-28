@@ -25,7 +25,7 @@ export const ModalBody = styled.div`
   max-height: 88vh;
 
   padding: 2rem;
-  gap: 2rem;
+  gap: 1rem;
   width: 35rem;
 
   header {

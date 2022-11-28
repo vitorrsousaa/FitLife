@@ -3,11 +3,11 @@ import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { api } from '../../services/api';
+import { Athlete } from '../../types/Athlete';
 import { Exercise } from '../../types/Exercise';
 import { Muscle } from '../../types/Muscle';
 
 import Button from '../Button';
-import Divider from '../Divider';
 import MapGym from '../icons/MapGym';
 import { Input } from '../Input';
 import Loading from '../Loading';
@@ -15,16 +15,20 @@ import { Modal } from '../Modal';
 
 import {
   ContainerAddExerciseModal,
+  ContainerCreateWorkoutModal,
   ContainerInput,
-  ExerciseContent,
-  ExerciseContainer,
-  MuscleContent,
-  MuscleContainer,
+  ContentExercise,
+  ContainerExercise,
+  ContentMuscle,
+  ContainerMuscle,
+  ContainerSelectedExercises,
+  ContentSelectedExercises,
 } from './styles';
 
 interface CreateWorkoutModalProps {
   isOpen: boolean;
   onClose: () => void;
+  athlete: Athlete;
 }
 
 interface FormAddExercise {
@@ -33,6 +37,16 @@ interface FormAddExercise {
   minRange: number;
   maxRange: number;
   description: string;
+  name: string;
+}
+
+interface ExerciseSelectedProps {
+  description?: string;
+  exercise: string;
+  sets: number;
+  minRange: number;
+  maxRange: number;
+  name: string;
 }
 
 const formAddExerciseSchema = yup.object().shape({
@@ -59,17 +73,26 @@ const formAddExerciseSchema = yup.object().shape({
     .integer('Range máximos precisa ser inteiro')
     .required('Range máximo obrigatório'),
   description: yup.string().typeError('Precisa ser um texto'),
+  name: yup.string().required(),
 });
 
-const CreateWorkoutModal = ({ isOpen, onClose }: CreateWorkoutModalProps) => {
+const CreateWorkoutModal = ({
+  isOpen,
+  onClose,
+  athlete,
+}: CreateWorkoutModalProps) => {
   const [isLoadingMuscles, setLoadingMuscles] = useState(false);
   const [isLoadingExercises, setLoadingExercises] = useState(false);
+  const [isLoadingCreatedWorkout, setLoadingCreatedWorkout] = useState(false);
   const [selectedMuscle, setSelectedMuscle] = useState('');
-
   const [titleTraining, setIsTitleTraining] = useState('');
   const [muscles, setMuscles] = useState<Muscle[]>([]);
   const [exercises, setExercises] = useState<Exercise[]>([]);
+  const [selectedExercises, setSelectedExercises] = useState<
+    ExerciseSelectedProps[]
+  >([]);
   const [isAddExerciseModal, setIsAddExerciseModal] = useState(false);
+
   const { register, handleSubmit, formState, reset, setValue } =
     useForm<FormAddExercise>({
       resolver: yupResolver(formAddExerciseSchema),
@@ -109,40 +132,79 @@ const CreateWorkoutModal = ({ isOpen, onClose }: CreateWorkoutModalProps) => {
     setIsTitleTraining(event);
   }
 
-  function handleCancelCreatedTraining() {
+  function handleCancelCreatedWorkout() {
     setIsTitleTraining('');
     setSelectedMuscle('');
-    reset();
+    setSelectedExercises([]);
     onClose();
   }
 
-  function handleOpenAddExercise(exerciseId: string) {
+  function handleOpenAddExercise(exercise: Exercise) {
     setIsAddExerciseModal(true);
-    setValue('exerciseId', exerciseId);
+    setValue('exerciseId', exercise._id);
+    setValue('name', exercise.name);
   }
 
   function handleCancelAddExercise() {
     setIsAddExerciseModal(false);
+    setSelectedMuscle('');
     reset();
   }
 
-  const handleExerciseModal: SubmitHandler<FormAddExercise> = (
+  const handleExerciseModalForm: SubmitHandler<FormAddExercise> = (
     data: FormAddExercise,
     event
   ) => {
     event?.preventDefault;
-    console.log(data);
+
+    const { description, maxRange, minRange, exerciseId, sets, name } = data;
+
+    const exercise = {
+      exercise: exerciseId,
+      description,
+      sets,
+      maxRange,
+      minRange,
+      name,
+    };
+
+    setSelectedExercises((prevState) => prevState.concat(exercise));
+
+    handleCancelAddExercise();
   };
+
+  function handleCreatedWorkout() {
+    setLoadingCreatedWorkout(true);
+
+    const exercises = selectedExercises.map((exercise) => ({
+      description: exercise.description,
+      exercise: exercise.exercise,
+      maxRange: exercise.maxRange,
+      minRange: exercise.minRange,
+      sets: exercise.sets,
+    }));
+
+    const workout = {
+      title: titleTraining,
+      athlete: athlete._id,
+      exercises,
+    };
+
+    api.post('/workout', workout);
+
+    setLoadingCreatedWorkout(false);
+    handleCancelCreatedWorkout();
+  }
 
   return (
     <>
       <Modal
         isOpen={isOpen}
-        onClose={handleCancelCreatedTraining}
-        title="Joaquim dos Santos"
+        onClose={handleCancelCreatedWorkout}
+        title={athlete.name}
         containerId="createWorkout-modal"
       >
-        <>
+        <ContainerCreateWorkoutModal>
           <ContainerInput>
             <MapGym />
             <input
@@ -152,7 +214,7 @@ const CreateWorkoutModal = ({ isOpen, onClose }: CreateWorkoutModalProps) => {
             />
           </ContainerInput>
 
-          <MuscleContainer>
+          <ContainerMuscle>
             {isLoadingMuscles ? (
               <Loading />
             ) : (
@@ -160,34 +222,32 @@ const CreateWorkoutModal = ({ isOpen, onClose }: CreateWorkoutModalProps) => {
                 const isSelected = selectedMuscle === muscle._id;
 
                 return (
-                  <MuscleContent
+                  <ContentMuscle
                     key={muscle._id}
                     onClick={() => handleSelectedMuscle(muscle._id)}
                     disabled={isSelected}
                   >
                     <p>💪</p>
                     <p>{muscle.name}</p>
-                  </MuscleContent>
+                  </ContentMuscle>
                 );
               })
             )}
-          </MuscleContainer>
+          </ContainerMuscle>
 
-          <ExerciseContainer>
+          <ContainerExercise>
             {selectedMuscle.length > 0 ? (
               isLoadingExercises ? (
                 <Loading />
               ) : (
                 <>
                   {exercises.map((exercise) => (
-                    <ExerciseContent key={exercise._id}>
+                    <ContentExercise key={exercise._id}>
                       <p>{exercise.name}</p>
-                      <button
-                        onClick={() => handleOpenAddExercise(exercise._id)}
-                      >
+                      <button onClick={() => handleOpenAddExercise(exercise)}>
                         +
                       </button>
-                    </ExerciseContent>
+                    </ContentExercise>
                   ))}
                 </>
               )
@@ -196,19 +256,35 @@ const CreateWorkoutModal = ({ isOpen, onClose }: CreateWorkoutModalProps) => {
                 <h2>Selecione um músculo!</h2>
               </>
             )}
-          </ExerciseContainer>
+          </ContainerExercise>
 
-          {/* {titleTraining.length > 0 && (
+          {selectedExercises.length > 0 && (
+            <ContainerSelectedExercises>
+              {selectedExercises.map((exercise) => (
+                <ContentSelectedExercises
+                  key={`${exercise.name}_${exercise.sets}`}
+                >
+                  <h1>{exercise.name}</h1>
+                  <div>
+                    <h2>{exercise.sets} Work-sets</h2>
+                    <h3>{`${exercise.minRange} - ${exercise.maxRange} reps`}</h3>
+                  </div>
+                </ContentSelectedExercises>
+              ))}
+            </ContainerSelectedExercises>
+          )}
+
           <Button
-            disabled={!(selectedMuscle.length > 0)}
-            style={{ background: 'var(--primary)' }}
+            disabled={!selectedExercises || !titleTraining}
+            onClick={handleCreatedWorkout}
           >
-            Adicionar exercícios
+            {isLoadingCreatedWorkout ? (
+              <Loading backgroundColor="white" />
+            ) : (
+              'Salvar treino'
+            )}
           </Button>
-        )} */}
-          <Divider />
-          <Button disabled>Salvar treino</Button>
-        </>
+        </ContainerCreateWorkoutModal>
       </Modal>
 
       <Modal
@@ -219,7 +295,7 @@ const CreateWorkoutModal = ({ isOpen, onClose }: CreateWorkoutModalProps) => {
       >
         <>
           <ContainerAddExerciseModal
-            onSubmit={handleSubmit(handleExerciseModal)}
+            onSubmit={handleSubmit(handleExerciseModalForm)}
           >
             <Input
               type="number"

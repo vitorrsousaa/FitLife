@@ -1,5 +1,11 @@
 import styled from 'styled-components';
 
+export const ContainerCreateWorkoutModal = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+`;
+
 export const ContainerInput = styled.label`
   width: 100%;
   display: flex;
@@ -32,7 +38,7 @@ export const ContainerInput = styled.label`
   }
 `;
 
-export const MuscleContainer = styled.div`
+export const ContainerMuscle = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -41,11 +47,11 @@ export const MuscleContainer = styled.div`
   margin-bottom: 2rem;
 `;
 
-interface MuscleContentProps {
+interface ContentMuscleProps {
   disabled: boolean;
 }
 
-export const MuscleContent = styled.div<MuscleContentProps>`
+export const ContentMuscle = styled.div<ContentMuscleProps>`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -76,7 +82,7 @@ export const MuscleContent = styled.div<MuscleContentProps>`
   }
 `;
 
-export const ExerciseContainer = styled.div`
+export const ContainerExercise = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -87,13 +93,15 @@ export const ExerciseContainer = styled.div`
   border: 1px solid var(--gray-100);
   border-radius: 4px;
   min-height: 7.5rem;
+  max-height: 12rem;
 
   h2 {
     font-weight: 600;
     font-size: 1.5rem;
   }
 
-  overflow-y: scroll;
+  overflow-y: auto;
+
   &::-webkit-scrollbar {
     width: 0.5rem;
     border-radius: 2rem;
@@ -111,7 +119,7 @@ export const ExerciseContainer = styled.div`
   }
 `;
 
-export const ExerciseContent = styled.div`
+export const ContentExercise = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -122,7 +130,7 @@ export const ExerciseContent = styled.div`
 
   p {
     font-weight: 600;
-    font-size: 1.5rem;
+    font-size: 1.25rem;
   }
 
   button {
@@ -146,4 +154,36 @@ export const ContainerAddExerciseModal = styled.form`
   align-items: center;
   flex-direction: column;
   gap: 1rem;
+`;
+
+export const ContainerSelectedExercises = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+`;
+
+export const ContentSelectedExercises = styled.div`
+  div {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  h1 {
+    color: var(--primary);
+    font-weight: 600;
+    font-size: 1rem;
+  }
+
+  h2 {
+    font-size: 0.75rem;
+    line-height: 22px;
+  }
+
+  h3 {
+    font-size: 0.75rem;
+  }
+
+  padding-bottom: 8px;
+
+  border-bottom: solid 1px var(--primary);
 `;

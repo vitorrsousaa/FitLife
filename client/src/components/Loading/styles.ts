@@ -3,6 +3,7 @@ import styled from 'styled-components';
 interface ContainerProps {
   color?: string;
   size?: string;
+  backgroundColor?: string;
 }
 
 export const Container = styled.div<ContainerProps>`
@@ -17,7 +18,8 @@ export const Container = styled.div<ContainerProps>`
     width: ${({ size }) => (size ? size : '2rem')};
     height: ${({ size }) => (size ? size : '2rem')};
     border: 6px solid ${({ color }) => (color ? color : 'var(--black)')};
-    border-top-color: var(--primary);
+    border-top-color: ${({ backgroundColor }) =>
+      backgroundColor ? backgroundColor : 'var(--primary)'};
     border-radius: 100%;
 
     animation: is-rotating 1s infinite;
