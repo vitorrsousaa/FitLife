@@ -1,10 +1,12 @@
+import { Exercise } from './Exercise';
+
 export interface Workout {
   _id: string;
   title: string;
-  muscle: string;
   athlete: string;
   exercises: {
-    exercise: string;
+    description?: string;
+    exercise: Exercise;
     sets: number;
     minRange: number;
     maxRange: number;

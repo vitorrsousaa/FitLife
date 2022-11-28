@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { api } from '../../services/api';
-
+import { Data } from '../../types/Data';
 import { Workout } from '../../types/Workout';
 import { formatDate } from '../../utils/formatDate';
 import Button from '../Button';
@@ -17,19 +17,19 @@ import {
   ContainerCategory,
 } from './styles';
 
-interface ShowWorkoutModalProps {
+interface DataWorkoutModalProps {
   onClose: () => void;
   isOpen: boolean;
   athleteId: string;
 }
 
-const ShowWorkoutModal = ({
+const DataWorkoutModal = ({
   onClose,
   isOpen,
   athleteId,
-}: ShowWorkoutModalProps) => {
+}: DataWorkoutModalProps) => {
   const [workouts, setWorkouts] = useState<Workout[]>([]);
-  const [dataWorkouts, setDataWorkouts] = useState<Workout[]>([]);
+  const [data, setData] = useState<Data[]>([]);
   const [selectedWorkout, setSelectedWorkout] = useState('');
   const [isWorkoutLoading, setIsWorkoutLoading] = useState(true);
   const [isDataLoading, setIsDataLoading] = useState(true);
@@ -38,15 +38,23 @@ const ShowWorkoutModal = ({
     setIsDataLoading(true);
 
     const workout = selectedWorkout === workoutId ? '' : workoutId;
+
     setSelectedWorkout(workout);
 
-    const route = workout
-      ? `/workout/${workout}`
-      : `/workout/athlete/${athleteId}`;
+    // Primeira opção do route é quando selecionar um treino
 
-    const { data } = await api.get(route);
+    // const route = !workout
+    //   ? `/data/athlete/${athleteId}`
+    //   : `/data/workout/${workout}`;
 
-    setDataWorkouts(data);
+    const route = workout ? console.log('aqui') : console.log('aqui ds');
+
+    // const { data } = await api.get(route);
+    // console.log(route);
+
+    // setData(data);
+
+    route;
 
     setIsDataLoading(false);
   }
@@ -63,23 +71,20 @@ const ShowWorkoutModal = ({
   }
 
   useEffect(() => {
-    api.get(`/workout/athlete/${athleteId}`).then((workoutsResponse) => {
+    Promise.all([
+      api.get(`/workout/athlete/${athleteId}`),
+      api.get(`/data/athlete/${athleteId}`),
+    ]).then(([workoutsResponse, dataResponse]) => {
       setWorkouts(workoutsResponse.data);
-      setDataWorkouts(workoutsResponse.data);
-
+      setData(dataResponse.data);
       setIsWorkoutLoading(false);
       setIsDataLoading(false);
     });
   }, []);
 
-  function handleCloseModal() {
-    setSelectedWorkout('');
-    onClose();
-  }
-
   return (
     <Modal
-      onClose={handleCloseModal}
+      onClose={onClose}
       isOpen={isOpen}
       title="Planejamento de treino"
       containerId="showWorkout-modal"
@@ -89,17 +94,17 @@ const ShowWorkoutModal = ({
           {isWorkoutLoading ? (
             <Loading />
           ) : workouts.length > 0 ? (
-            workouts.map(({ _id, title }) => {
-              const isSelected = selectedWorkout === _id;
+            workouts.map((workout) => {
+              const isSelected = selectedWorkout === workout._id;
 
               return (
                 <Category
-                  key={_id}
+                  key={workout._id}
                   disabled={isSelected}
-                  onClick={() => handleSelectedWorkout(_id)}
+                  onClick={() => handleSelectedWorkout(workout._id)}
                 >
                   <p>💪</p>
-                  <p>{title}</p>
+                  <p>{workout.title}</p>
                 </Category>
               );
             })
@@ -111,20 +116,20 @@ const ShowWorkoutModal = ({
         {isDataLoading ? (
           <Loading size="5rem" />
         ) : (
-          dataWorkouts.map((workout) => (
-            <div key={workout._id}>
-              <Header>
-                <h2>{workout.title}</h2>
-                <p>{formatDate(workout.createdAt)}</p>
-              </Header>
+          data.map((workouts) => {
+            return (
+              <div key={workouts._id}>
+                <Header>
+                  <h2>{workouts.workout.title}</h2>
+                  <p>{formatDate(workouts.createdAt)}</p>
+                </Header>
 
-              {workout.exercises.map(
-                ({ exercise, sets, minRange, maxRange, description }) => (
-                  <React.Fragment key={`${workout._id}_${exercise._id}`}>
+                {workouts.exercises.map(({ exercise, info }) => (
+                  <React.Fragment key={exercise._id}>
                     <ContainerWorkout>
                       <div>
-                        <h3 key={exercise._id}>{exercise.name}</h3>
-                        {description ? <p>{description}</p> : null}
+                        <h3>{exercise.name}</h3>
+                        {exercise.description && <p>{exercise.description}</p>}
                       </div>
                       <ContentWorkout>
                         <h4>Works sets</h4>
@@ -132,21 +137,24 @@ const ShowWorkoutModal = ({
                           <div>
                             <p>Sets</p>
                             <p>Reps</p>
+                            <p>Kg</p>
                           </div>
-
-                          <div>
-                            <p>{sets} W</p>
-                            <p>{`${minRange} - ${maxRange}`}</p>
-                          </div>
+                          {info.map((infoData) => (
+                            <div key={infoData._id}>
+                              <p>W</p>
+                              <p>{infoData.reps}</p>
+                              <p>{infoData.charge}</p>
+                            </div>
+                          ))}
                         </section>
                       </ContentWorkout>
                     </ContainerWorkout>
                     <Divider />
                   </React.Fragment>
-                )
-              )}
-            </div>
-          ))
+                ))}
+              </div>
+            );
+          })
         )}
 
         <div>
@@ -163,4 +171,4 @@ const ShowWorkoutModal = ({
   );
 };
 
-export default ShowWorkoutModal;
+export default DataWorkoutModal;

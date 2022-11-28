@@ -8,6 +8,7 @@ export async function listWorkoutByAthlete(req: Request, res: Response) {
     const workout = await Workout.find()
       .where('athlete')
       .equals(athleteId)
+      .populate('exercises.exercise')
       .sort({ title: 1 });
 
     // if (workout.length === 0) {

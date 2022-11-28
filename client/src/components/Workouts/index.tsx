@@ -16,9 +16,14 @@ export function Workouts() {
   const [athletes, setAthletes] = useState<Athlete[]>([]);
 
   useEffect(() => {
-    api.get('/athlete').then((response) => setAthletes(response.data));
-
-    setIsLoading(false);
+    try {
+      api.get('/athlete').then((response) => {
+        setAthletes(response.data);
+        setIsLoading(false);
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }, []);
 
   return (
@@ -36,7 +41,7 @@ export function Workouts() {
           </ContainerInput>
 
           {isLoading ? (
-            <Loading size="5rem" />
+            <Loading size="5rem" color="var(--gray)" />
           ) : (
             athletes.map((athlete) => (
               <WorkoutBoard key={athlete._id} athlete={athlete} />

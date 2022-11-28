@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { api } from '../../services/api';
@@ -62,7 +62,6 @@ const formAddExerciseSchema = yup.object().shape({
 });
 
 const CreateWorkoutModal = ({ isOpen, onClose }: CreateWorkoutModalProps) => {
-  // const muscles = ['Dorsal', 'Biceps', 'Triceps', 'Perna', 'Ombro', 'Peito'];
   const [isLoadingMuscles, setLoadingMuscles] = useState(false);
   const [isLoadingExercises, setLoadingExercises] = useState(false);
   const [selectedMuscle, setSelectedMuscle] = useState('');

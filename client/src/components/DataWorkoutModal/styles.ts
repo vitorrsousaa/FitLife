@@ -38,11 +38,9 @@ export const ContainerWorkout = styled.div`
     font-size: 1.5rem;
   }
 
-  & > div:first-child > p {
+  & > :first-child + p {
     font-weight: 400;
     font-size: 1rem;
-    margin-bottom: 0.875rem;
-    text-align: center;
   }
 `;
 
@@ -67,6 +65,7 @@ export const ContentWorkout = styled.div`
     align-items: center;
 
     gap: 4px;
+    width: 100%;
   }
 
   div {
