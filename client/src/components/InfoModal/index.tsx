@@ -1,4 +1,3 @@
-import React from 'react';
 import { Modal } from '../Modal';
 
 import { Container, Content } from './styles';

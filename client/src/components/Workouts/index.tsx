@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { ReactEventHandler, useEffect, useState } from 'react';
 import { BsSearch } from 'react-icons/bs';
 
 import { Input } from '../Input';
@@ -34,10 +34,10 @@ export function Workouts() {
             <h1>Meus atletas</h1>
             <button onClick={() => setIsOpenAddAthleteModal(true)}>+</button>
           </Header>
+
           <ContainerInput>
-            <Input type="text" placeholder="Busque pelo nome do seu atleta">
-              <BsSearch fill="var(--gray-100)" />
-            </Input>
+            <BsSearch fill="var(--gray-100)" />
+            <input type="text" placeholder="Busque pelo nome do seu atleta" />
           </ContainerInput>
 
           {isLoading ? (

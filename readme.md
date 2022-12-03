@@ -116,9 +116,12 @@ Features que estão sendo adicionadas na aplicação
 
 **Front-end Web**
 
--  [ ] Adicionar Modal para criação de treino
 -  [ ] Adicionar Modal para visualizar os dados de treino
 -  [ ] Adicionar busca pelo nome dos alunos no input da home
+-  [ ] Consertar visualização do container de criação de treinos
+-  [ ] Adicionar input focus e transition
+-  [ ] Adicionar button active e transition
+-  [ ] Implementar React Router Dom
 
 **Front-end Mobile**
 

@@ -146,4 +146,8 @@ export const Category = styled.div<CategoryProps>`
     font-weight: 600;
     font-size: 0.875rem;
   }
+
+  p {
+    text-align: center;
+  }
 `;

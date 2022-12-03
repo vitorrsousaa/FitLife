@@ -36,6 +36,7 @@ const WorkoutBoard = ({ athlete }: WorkoutBoardProps) => {
           <button onClick={() => setIsShowWorkoutVisible(true)}>
             <GiMuscleUp />
           </button>
+
           <button onClick={() => setIsCreateWorkoutVisible(true)}>
             <Gym />
           </button>

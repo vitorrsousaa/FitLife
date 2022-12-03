@@ -150,13 +150,15 @@ const ShowWorkoutModal = ({
         )}
 
         <div>
-          <Button
-            style={{ background: 'var(--error)', marginTop: '2rem' }}
-            disabled={selectedWorkout === ''}
-            onClick={handleDeleteWorkout}
-          >
-            Excluir plano de treino
-          </Button>
+          {workouts.length > 0 ? (
+            <Button
+              style={{ background: 'var(--error)', marginTop: '2rem' }}
+              disabled={selectedWorkout === ''}
+              onClick={handleDeleteWorkout}
+            >
+              Excluir plano de treino
+            </Button>
+          ) : null}
         </div>
       </Container>
     </Modal>
