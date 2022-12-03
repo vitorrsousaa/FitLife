@@ -73,6 +73,7 @@ Tecnologias e ferramentas utilizadas no desenvolvimento do projeto:
 #### **Website** ( [ReactJS](https://reactjs.org/) + [TypeScript](https://www.typescriptlang.org/) )
 
 -  [React Hook Form](https://react-hook-form.com/)
+-  [React Router Dom](https://reactrouter.com/)
 -  [React Icons](https://react-icons.github.io/react-icons/)
 -  [Axios](https://github.com/axios/axios)
 -  [StyledComponents](https://styled-components.com/)
@@ -121,7 +122,8 @@ Features que estão sendo adicionadas na aplicação
 -  [ ] Consertar visualização do container de criação de treinos
 -  [ ] Adicionar input focus e transition
 -  [ ] Adicionar button active e transition
--  [ ] Implementar React Router Dom
+-  [ ] Quando digitamos o nome do treino, já conseguimos adicionar, preciso impedir a adição do treino caso não tenha preenchido o form
+-  [x] Implementar React Router Dom
 
 **Front-end Mobile**
 
@@ -150,11 +152,14 @@ Afim de facilitar a organização e manutenção do código, foi definido um pad
 → utils: Funcionalides que são utilizadas em diversos locais da aplicação; <br />
 → types: Todos as interfaces que são utilizadas em diversos locais da aplicação; <br />
 → hooks: Custom hooks; <br />
+→ pages: Armazena todas as páginas da aplicação; <br />
 
 Todos os componentes criados vão seguir uma mesma estrutura de organização:
 → index.tsx: Responsável por exportar o componente; <br />
 → interface.ts: Responsável por exportar as interfaces; <br />
 → styles.ts: Responsável por toda estilização do componente; <br />
+
+Como cada página não deixa de ser um componente, as pastas dentro da pasta pages vão seguir a mesma estrutura de um componente.
 
 **Front-end Mobile**
 

@@ -31,6 +31,15 @@ export const ContainerButtons = styled.div`
   align-items: center;
   gap: 1rem;
 
+  svg {
+    font-size: 3rem;
+    fill: var(--primary);
+
+    &:hover {
+      transform: scale(1.2);
+    }
+  }
+
   button {
     background: transparent;
     border: none;

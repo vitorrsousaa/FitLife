@@ -1,7 +1,11 @@
+import { Header } from '../../components/Header';
+import { Workouts } from '../../components/Workouts';
+
 export function Home() {
   return (
     <>
-      <h1>Página inicial</h1>
+      <Header />
+      <Workouts />
     </>
   );
 }

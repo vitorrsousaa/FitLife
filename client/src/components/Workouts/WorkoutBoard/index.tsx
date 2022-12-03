@@ -1,11 +1,11 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import { BsFillPersonFill } from 'react-icons/bs';
 import { GiMuscleUp } from 'react-icons/gi';
 import { Gym } from '../../icons/Gym';
 import InfoModal from '../../InfoModal';
 import CreateWorkoutModal from '../../CreateWorkoutModal';
-import ShowWorkoutModal from '../../ShowWorkoutModal';
 
 import { ContainerAthlete, ContainerButtons } from './styles';
 import { Athlete } from '../../../types/Athlete';
@@ -17,7 +17,6 @@ interface WorkoutBoardProps {
 
 const WorkoutBoard = ({ athlete }: WorkoutBoardProps) => {
   const [isInfoModalVisible, setIsInfoModalVisible] = useState(false);
-  const [isShowWorkoutVisible, setIsShowWorkoutVisible] = useState(false);
   const [isCreateWorkoutVisible, setIsCreateWorkoutVisible] = useState(false);
 
   return (
@@ -33,9 +32,9 @@ const WorkoutBoard = ({ athlete }: WorkoutBoardProps) => {
             <BsFillPersonFill />
           </button>
 
-          <button onClick={() => setIsShowWorkoutVisible(true)}>
+          <Link to={`planejamento-de-treino/${athlete._id}`}>
             <GiMuscleUp />
-          </button>
+          </Link>
 
           <button onClick={() => setIsCreateWorkoutVisible(true)}>
             <Gym />
@@ -47,12 +46,6 @@ const WorkoutBoard = ({ athlete }: WorkoutBoardProps) => {
         isOpen={isInfoModalVisible}
         onClose={() => setIsInfoModalVisible(false)}
         athlete={athlete}
-      />
-
-      <ShowWorkoutModal
-        isOpen={isShowWorkoutVisible}
-        onClose={() => setIsShowWorkoutVisible(false)}
-        athleteId={athlete._id}
       />
 
       <CreateWorkoutModal
