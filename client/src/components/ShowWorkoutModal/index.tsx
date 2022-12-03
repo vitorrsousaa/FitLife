@@ -38,6 +38,7 @@ const ShowWorkoutModal = ({
     setIsDataLoading(true);
 
     const workout = selectedWorkout === workoutId ? '' : workoutId;
+
     setSelectedWorkout(workout);
 
     const route = workout
@@ -149,8 +150,8 @@ const ShowWorkoutModal = ({
           ))
         )}
 
-        <div>
-          {workouts.length > 0 ? (
+        {workouts.length > 0 ? (
+          <div>
             <Button
               style={{ background: 'var(--error)', marginTop: '2rem' }}
               disabled={selectedWorkout === ''}
@@ -158,8 +159,8 @@ const ShowWorkoutModal = ({
             >
               Excluir plano de treino
             </Button>
-          ) : null}
-        </div>
+          </div>
+        ) : null}
       </Container>
     </Modal>
   );
